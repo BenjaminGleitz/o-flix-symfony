@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ tvShow.title }}
+    -
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <h2>{{ tvShow.title }}</h2>
+    <p>
+        {% for season in tvShow.seasons %}
+            Saison
+            {{ season.seasonNumber }}
+        {% endfor %}
+    </p>
+    <p>
+        {{ tvShow.synopsis }}
+    </p>
+
+    <section>
+        <h3>Catégories</h3>
+        <ul>
+            {% for category in tvShow.categories %}
+                <li>{{ category.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h3>Personnages</h3>
+        <ul>
+            {% for character in tvShow.characters %}
+                <li>
+                    {{ character.firstname }}
+                    {{ character.lastname }}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <p>
+        <a href="{{ path('tvshow_index') }}">Retour à la liste</a>
+    </p>
+{% endblock %}

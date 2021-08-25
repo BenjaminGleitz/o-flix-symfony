@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TvShowController!
+{% endblock %}
+
+{% block body %}
+    <h1>Séries</h1>
+    <ul>
+        {% for tvShow in tvShowList %}
+            <li>
+                <a href="{{ path('tvshow_show', {id:tvShow.id}) }}">
+                    {{ tvShow.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
