@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <p>
+        Nom du personnage :
+        {{ character.firstname }}  {{ character.lastname }}
+    </p>
+
+    <p>
+        <a href="{{path('backoffice_character_edit', {id:character.id}) }}">Editer</a>
+        |
+        <a href="{{path('backoffice_character_delete', {id:character.id}) }}">Supprimer</a>
+    </p>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="container">
+    {{ form_start(formView,  {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_end(formView) }}
+</div>
+
+{% endblock %}

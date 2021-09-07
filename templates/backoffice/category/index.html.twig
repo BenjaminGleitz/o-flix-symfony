@@ -1,0 +1,24 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block content %}
+    <h1>Catégories</h1>
+
+    <p>
+        <a href="{{ path('backoffice_category_add') }}">Ajouter une catégorie</a>
+    </p>
+    {# <p>
+        <a href="{{ path('backoffice_category_update') }}">modifier une catégorie</a>
+    </p> #}
+
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{{path("backoffice_category_show", {id:category.id})}}">
+                    {{ category.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

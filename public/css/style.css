@@ -1,0 +1,39 @@
+body {
+    background-color: #212529;
+}
+
+/* HOME */
+
+.slogan {
+    color: #c39a67;
+}
+
+.card {
+    border: #c39a67 0.2rem solid;
+}
+
+.connect-button {
+    background-color: #c39a67;
+}
+
+/* CATEGORY */
+
+.card-info {
+    height: 100px;
+}
+
+h4 {
+    height: 55px;
+    margin-top: 10px;
+}
+
+.category-item {
+    color: #c39a67;
+    list-style-type: none;
+    font-size: 1.5em;
+    /* text-align: center; */
+}
+
+.category-title {
+    color: #c39a67;
+}

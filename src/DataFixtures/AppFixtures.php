@@ -2,7 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Character;
+use App\Entity\Episode;
 use App\Entity\Season;
 use App\Entity\TvShow;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -12,56 +14,53 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = \Faker\Factory::create();
-        $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
-        $faker->addProvider(new \Xylis\FakerCinema\Provider\TvShow($faker));
+        // $tvShowRepository = new TvShowRepository()->findAll();
+            $faker = \Faker\Factory::create();
+            $faker->addProvider(new \Xylis\FakerCinema\Provider\Movie($faker));
+            $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
+            $faker->addProvider(new \Xylis\FakerCinema\Provider\TvShow($faker));
+      
+        for ($categoryId = 0; $categoryId < 4; $categoryId++) {
+            $category = new Category();
+            $category->setname($faker->movieGenre);
+            $manager->persist($category);
 
-        // Création de personnages
-        for ($index = 0; $index < 20; $index++) {
-            $gender = mt_rand(0, 1) ? 'male' : 'female';
-            $fullNameArray = explode(" ", $faker->character($gender));
+            for ($tvShowId = 0; $tvShowId < mt_rand(2, 4); $tvShowId++) {
+                $tvShow = new TvShow();
+                $tvShow->setTitle($faker->tvShow);
+                $tvShow->setSynopsis($faker->overview);
+                $tvShow->addCategory($category);
+                $manager->persist($tvShow);
 
-            // On créé un personnage vide
-            $character = new Character();
-            $character->setFirstname($fullNameArray[0]);
-            $character->setLastname($fullNameArray[1] ?? ' Doe' . $index);
-            $character->setGender($gender == 'male' ? 'Homme' : 'Femme');
+                for ($sesonId = 1; $sesonId < mt_rand(3, 8); $sesonId++) {
+                    $season = new Season();
+                    $season->setSeasonNumber($sesonId);
+                    $season->setTvShow($tvShow);
+                    $manager->persist($season);
 
-            // On met le personnage en liste d'attente
-            // pour une sauvegarde au moment du "flush"
-            $manager->persist($character);
+                    for ($episodeId = 1; $episodeId < mt_rand(7, 15); $episodeId++) {
+                        $episode = new Episode();
+                        $episode->setEpisodeNumber($episodeId);
+                        $episode->setTitle($faker->movie);
+                        $episode->setSeason($season);
+                        $manager->persist($episode);
+                    }
+                }
+
+                for ($characterId = 0; $characterId < mt_rand(8, 18); $characterId++) {
+                    $gender = mt_rand(0, 1) ? 'male' : 'female';
+                    $fullNameArray = explode(" ", $faker->character($gender));
+                    $character = new Character();
+
+                    $character->setFirstname($fullNameArray[0]);
+                    $character->setLastname($fullNameArray[1]?? 'Doe');
+                    $character->setGender($gender == 'male' ? 'Homme' : 'Femme');
+                    $character->addTvShow($tvShow);
+                    $manager->persist($character);
+                }
+            }
         }
-
-
-        for ($i = 0; $i < 20; $i++) {
-            // On créé une série vide
-            $tvShow = new TvShow();
-
-            // On ajoute des informations
-            $tvShow->setTitle($faker->tvShow);
-            $tvShow->setSynopsis($faker->overview);
-            $tvShow->setNbLikes(150000);
-
-            // On créé de nouvelles saisons que l'on associe à tvShow
-            $seasonOne = new Season();
-            $seasonOne->setSeasonNumber(1);
-            $tvShow->addSeason($seasonOne);
-
-            $seasonTwo = new Season();
-            $seasonTwo->setSeasonNumber(2);
-            $tvShow->addSeason($seasonTwo);
-
-            $seasonThree = new Season();
-            $seasonThree->setSeasonNumber(3);
-            $tvShow->addSeason($seasonThree);
-
-            $manager->persist($tvShow);
-            $manager->persist($seasonOne);
-            $manager->persist($seasonTwo);
-            $manager->persist($seasonThree);
-        }
-
-        // On sauvegarde les séries/saisons en BDD
+        
         $manager->flush();
     }
 }

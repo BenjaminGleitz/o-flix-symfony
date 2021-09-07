@@ -7,6 +7,8 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CharacterRepository::class)
@@ -18,53 +20,75 @@ class Character
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
+     * @Assert\NotBlank
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
+     * @Assert\NotBlank
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $gender;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $bio;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $age;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity=TvShow::class, mappedBy="characters")
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
      */
     private $tvShows;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+ * @Groups({"tvshow_list", "tvshow_detail", "characters_list"})
+     */
+    private $image;
 
     public function __construct()
     {
         $this->tvShows = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
+    }
+
+    public function __toString() 
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
     public function getId(): ?int
@@ -179,6 +203,18 @@ class Character
         if ($this->tvShows->removeElement($tvShow)) {
             $tvShow->removeCharacter($this);
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

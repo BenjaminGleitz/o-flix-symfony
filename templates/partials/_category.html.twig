@@ -1,0 +1,16 @@
+<div class="col-2 border-end border-4 fixed" >
+    
+    <a href=" {{ path("category")}}" class="text-decoration-none text-dark ">
+        <h1>Catégories</h1>
+    </a>
+    <hr>
+    <ul >
+        {% for category in categories %}
+            <a  href="{{ path("category_tvshow", {id:category.id}) }}" class="text-decoration-none text-dark" >
+                
+                <li class="category-item"> {{ category.name }}</li>
+                <hr>
+            </a>
+        {% endfor %}
+    </ul>
+</div>

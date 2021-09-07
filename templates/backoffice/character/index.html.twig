@@ -1,0 +1,24 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Hello CharacterController!{% endblock %}
+
+{% block content %}
+    <h1>Personnages</h1>
+
+        <p>
+            <a href="{{ path('backoffice_character_add') }}">Ajouter un personnage</a>
+        </p>
+        {# <p>
+            <a href="{{ path('backoffice_character_update') }}">modifier une catégorie</a>
+        </p> #}
+
+        <ul>
+            {% for character in characters %}
+                <li>
+                    <a href="{{path("backoffice_character_show", {id:character.id})}}">
+                        {{ character.firstname }}  {{ character.lastname }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+{% endblock %}

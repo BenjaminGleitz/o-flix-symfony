@@ -7,6 +7,8 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TvShowRepository::class)
@@ -17,41 +19,51 @@ class TvShow
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete",})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
+     * @Assert\NotBlank(message="Merci de saisir un titre de série")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
+     * @Assert\NotBlank(message="Merci de saisir un synopsis")
      */
     private $synopsis;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
      */
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true, options={"default":0})
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
      */
     private $nbLikes;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
      */
     private $publishedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
      */
     private $updatedAt;
 
@@ -69,6 +81,12 @@ class TvShow
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="tvShows")
      */
     private $categories;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"tvshow_list", "tvshow_detail", "tvshow_delete", "characters_list"})
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -243,6 +261,18 @@ class TvShow
     public function removeCategory(Category $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
