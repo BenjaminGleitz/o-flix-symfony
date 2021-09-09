@@ -40,7 +40,7 @@ class TvShowController extends AbstractController
             $entityManager->persist($tvShow);
             $entityManager->flush();
 
-            return $this->redirectToRoute('backoffice_tv_show_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('backoffice_tvshow_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('backoffice/tv_show/new.html.twig', [
@@ -80,7 +80,7 @@ class TvShowController extends AbstractController
             // Petit message flash
             $this->addFlash('success', 'La catégorie ' . $tvShow->getTitle() . ' a bien été mise à jour');
 
-            return $this->redirectToRoute('backoffice_tv_show_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('backoffice_tvshow_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('backoffice/tv_show/edit.html.twig', [
@@ -103,6 +103,6 @@ class TvShowController extends AbstractController
             $this->addFlash('success', 'La catégorie ' . $tvShow->getTitle() . ' a bien été supprimé');
         }
 
-        return $this->redirectToRoute('backoffice_tv_show_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('backoffice_tvshow_index', [], Response::HTTP_SEE_OTHER);
     }
 }

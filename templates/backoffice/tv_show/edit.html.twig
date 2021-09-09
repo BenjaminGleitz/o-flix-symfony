@@ -5,6 +5,10 @@
 {% block content %}
     <h1>Edit TvShow</h1>
 
+    <p>
+        <a href="{{ path('backoffice_season_add', {id:tv_show.id}) }}">Ajouter une saison</a>
+    </p>
+
     {{ include('backoffice/tv_show/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('backoffice_tvshow_index') }}">back to list</a>

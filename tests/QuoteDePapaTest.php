@@ -1,29 +1,34 @@
 <?php
 
-namespace App\Service;
+namespace App\Tests;
 
-class QuoteDePapa
+use App\Service\QuoteDePapa;
+use PHPUnit\Framework\TestCase;
+
+class QuoteDePapaTest extends TestCase
 {
-
     /**
-     * Retourne des citations de devs de manière aléatoire
+     * Véerifie que la méthode QuoteDePapa fonctionne comme prévu
      *
-     * @return string
+     * @return void
      */
-    public function randomQuote(): string
+    public function testQuoteDePapa(): void
     {
+
+        $quoteDePapa = new QuoteDePapa;
+        $result = $quoteDePapa->randomQuote();
+
         $randomQuoteArray = [
             "Le gras c'est la vie", // index 0
             "OK", // index 1
             "C'est pas faux !", // index 2
-            "Vouala",
             "Des customs curry",
             "RTFM",
             "auto waouwaouwaing",
             "search('homme poilu')",
             "Toutou beignet",
             "cateogry",
-            "Quand tu ajoutes un attribut à la manau, c'est l'attribut de Dana",
+            "Quand tu ajoute tu attribut à la manau, c'est l'attribut de Dana",
             "j'oublie vite les choses",
             "un clavier AZERTY en vaux deux",
             "Flash sur Firefox, c’est de l’Adobe !",
@@ -32,11 +37,10 @@ class QuoteDePapa
             "on est les ylusses!"
         ];
 
-        // Retourne un index aléatoire
-        $randomIndex = array_rand($randomQuoteArray);
+        // Pour que le test fonctionne, le resultat de la méthode
+        // doit se trouver dans le tableau randomQuoteArray
+        $this->assertContains($result, $randomQuoteArray);
 
-        // On retourne une citation aléatoire parmi la liste
-        // $randomQuoteArray
-        return $randomQuoteArray[$randomIndex];
+        $this->assertTrue(true);
     }
 }
